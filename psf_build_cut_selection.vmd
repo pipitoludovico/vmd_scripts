@@ -1,0 +1,26 @@
+package require psfgen
+resetpsf
+readpsf step5_charmm2namd.psf
+coordpdb step5_charmm2namd.pdb
+mol load psf step5_charmm2namd.psf pdb step5_charmm2namd.pdb
+set cut [atomselect top "lipids or ions or resname TIP3 DPPS PSM DPPE POPS CHL1"]
+foreach segid [$cut get segid] resid [$cut get resid] {
+delatom $segid $resid
+}
+writepsf tmp.psf
+writepdb tmp.pdb
+
+
+
+resetpsf
+readpsf tmp.psf
+coordpdb tmp.pdb
+mol load psf tmp.psf pdb tmp.pdb
+set cut [atomselect top "all not (same residue as all and z > 200)"]
+foreach segid [$cut get segid] resid [$cut get resid] {
+delatom $segid $resid
+}
+writepsf simplified_tmp.psf
+writepdb simplified_tmp.pdb
+
+

@@ -1,0 +1,7 @@
+mol new filtered.psf type psf
+
+mol addfile traj_filtered_aligned.xtc  type xtc first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all
+
+volmap occupancy [atomselect top "resname UNL"]  -res 1.0 -allframes -combine avg -o volmap_out.dx
+
+exit

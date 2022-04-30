@@ -1,0 +1,13 @@
+package require psfgen
+resetpsf
+readpsf rbdup.psf
+coordpdb rbdup.pdb
+mol load psf rbdup.psf pdb rbdup.pdb
+set cut [atomselect top "not segid CARU CARJ"]
+foreach segid [$cut get segid] resid [$cut get resid] {
+delatom $segid $resid
+}
+writepsf rbdup_CARUCARJ_final.psf
+writepdb rbdup_CARUCARJ_final.pdb
+
+
